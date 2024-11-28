@@ -1,0 +1,146 @@
+
+'======================Function to select face or tree object to apply color============================
+Public Sub EntSelBtn_Click()
+    Dim inputObject(1)
+    inputObject(0) = "Face"
+    inputObject(1) = "AnyObject"
+    Dim oStatus
+    Dim sel
+    On Error Resume Next
+    Set sel = CATIA.ActiveDocument.Selection
+    If Err.Number <> 0 Then
+        MsgBox ("Please open the part or product file.")
+        Exit Sub
+    End If
+    Err.Clear
+    If FrmClose = True Then
+        sel.Clear
+        Exit Sub
+    End If
+            
+    Dim RGB_SplitArr(2) As String
+    RGB_SplitArr(0) = RedTxtBx.Text
+    RGB_SplitArr(1) = GreenTxtBx.Text
+    RGB_SplitArr(2) = BlueTxtBx.Text
+    Arrcount = UBound(RGB_SplitArr)
+    If Arrcount >= 2 Then
+        oStatus = sel.SelectElement2(inputObject, "Select Entities", True)
+        sel.FilterCorrespondence
+        If End_Selctn_Status = True Then
+            SendKeys "{ESC}"
+            DoEvents
+            SendKeys "{ESC}"
+            sel.Clear
+            Exit Sub
+        End If
+        Dim obj
+        Set obj = sel.Item(1).Value
+        If InStr(sel.Item(1).Value.Parent.Name, "plane") = False Then
+            If (oStatus = "Cancel") Then
+                sel.Clear
+                Unload Me
+                Exit Sub
+            End If
+            If IsChanged = True Then
+                sel.Clear
+                Exit Sub
+            End If
+            If FrmClose = True Then
+                sel.Clear
+                Exit Sub
+            End If
+           Set Vis = sel.VisProperties
+                    
+           On Error Resume Next
+           Vis.SetRealColor CInt(RGB_SplitArr(0)), CInt(RGB_SplitArr(1)), CInt(RGB_SplitArr(2)), 0
+            Err.Clear
+            sel.Clear
+                    
+       Else
+        sel.Clear
+       End If
+   End If
+End Sub
+
+Private Sub GreenTxtBx_Change()
+Dim RedColor As Integer
+Dim GreenColor As Integer
+Dim BlueColor As Integer
+On Error Resume Next
+RedColor = CInt(RedTxtBx.Text)
+GreenColor = CInt(GreenTxtBx.Text)
+BlueColor = CInt(BlueTxtBx.Text)
+If Err <> 0 Then
+    Err.Clear
+    Exit Sub
+Else
+    If RedColor > 255 Then
+       Exit Sub
+    End If
+    If GreenColor > 255 Then
+        Exit Sub
+    End If
+    If BlueColor > 255 Then
+        Exit Sub
+    End If
+
+   ColorTxtBx.BackColor = RGB(RedColor, GreenColor, BlueColor)
+End If
+
+End Sub
+
+Private Sub RedTxtBx_Change()
+Dim RedColor As Integer
+Dim GreenColor As Integer
+Dim BlueColor As Integer
+On Error Resume Next
+RedColor = CInt(RedTxtBx.Text)
+GreenColor = CInt(GreenTxtBx.Text)
+BlueColor = CInt(BlueTxtBx.Text)
+If Err <> 0 Then
+    Err.Clear
+    Exit Sub
+Else
+    If RedColor > 255 Then
+       Exit Sub
+    End If
+    If GreenColor > 255 Then
+        Exit Sub
+    End If
+    If BlueColor > 255 Then
+        Exit Sub
+    End If
+
+   ColorTxtBx.BackColor = RGB(RedColor, GreenColor, BlueColor)
+End If
+
+End Sub
+
+
+Private Sub BlueTxtBx_Change()
+Dim RedColor As Integer
+Dim GreenColor As Integer
+Dim BlueColor As Integer
+On Error Resume Next
+RedColor = CInt(RedTxtBx.Text)
+GreenColor = CInt(GreenTxtBx.Text)
+BlueColor = CInt(BlueTxtBx.Text)
+If Err <> 0 Then
+    Err.Clear
+    Exit Sub
+Else
+    If RedColor > 255 Then
+       Exit Sub
+    End If
+    If GreenColor > 255 Then
+        Exit Sub
+    End If
+    If BlueColor > 255 Then
+        Exit Sub
+    End If
+
+   ColorTxtBx.BackColor = RGB(RedColor, GreenColor, BlueColor)
+End If
+
+End Sub
+
