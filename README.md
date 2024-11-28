@@ -1,5 +1,8 @@
 # Color-filler
 Color filler macro used to automate the process of filling or changing the color of various parts or faces or bodies within a CATIA environment.
+Instead of manually choosing one color and select the face or body, again choosing another color and select the face or body.
+A macro can apply colors by choosing the color one time and selecting the multiple faces or parts continuously.
+If press “ESC” key, macro automatically cancel the selection of color.
 
 
 Color Filler Macro GUI here
